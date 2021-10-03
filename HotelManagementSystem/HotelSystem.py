@@ -45,6 +45,7 @@ class HotelSystem:
         return self.get_payment_service().make_transaction(user, amount_to_be_paid)
 
     def checkout(self, user):
+        # TODO: calculate extra-charge in case of delay in checkout
         res = self.get_room_service().vacant_room(user)
         self.get_display_service().display_vacant_rooms(self.__room_service)
         return res
@@ -52,6 +53,3 @@ class HotelSystem:
     def get_current_user_recent_transaction(self):
         if self.__current_user is not None:
             self.get_display_service().print_recent_transaction_by_user(self.__current_user, self.get_payment_service())
-
-
-
