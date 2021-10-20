@@ -34,17 +34,19 @@ class HotelSystem:
     def set_current_user(self, user):
         self.__current_user = user
 
-    def set_current_hotel(self):
-        self.__current_hotel = self.get_room_service()
+    def set_current_hotel(self, hotel):
+        self.__current_hotel = hotel
 
     def checkin(self, user, no_of_guests):
+        self.set_current_user(user)
         self.get_display_service().display_vacant_rooms(self.__current_hotel)
         amount_to_be_paid = self.get_room_service().book_room(user, no_of_guests)
         print(f'Amount to be paid is {amount_to_be_paid}.')
         self.get_display_service().display_vacant_rooms(self.__current_hotel)
-        return self.get_payment_service().make_transaction(user, amount_to_be_paid)
+        return self.get_payment_service().make_transaction(self.__current_user, amount_to_be_paid)
 
     def checkout(self, user):
+        self.set_current_user(user)
         # TODO: calculate extra-charge in case of delay in checkout
         res = self.get_room_service().vacant_room(user)
         self.get_display_service().display_vacant_rooms(self.__room_service)
